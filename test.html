@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Design with Name Overlay</title>
+  <style>
+    #canvas {
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="1080" height="1920"></canvas>
+  <br>
+  <input type="text" id="nameInput" placeholder="Enter your name">
+  <button id="submitButton">Submit</button>
+
+  <script>
+    // Load the design onto the canvas
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+
+    // Replace 'C:\Users\WIN 10\Desktop\Ill_TuT\khanbshi\Eid.PNG' with the path to your PNG image
+    var designImage = new Image();
+    designImage.src = 'Eid.PNG';
+
+    designImage.onload = function() {
+      var canvasAspectRatio = canvas.width / canvas.height;
+      var imageAspectRatio = designImage.width / designImage.height;
+
+      // Calculate the appropriate dimensions and position to fit the image within the canvas
+      var width, height, x, y;
+      if (canvasAspectRatio > imageAspectRatio) {
+        width = canvas.width;
+        height = canvas.width / imageAspectRatio;
+        x = 0;
+        y = (canvas.height - height) / 2;
+      } else {
+        width = canvas.height * imageAspectRatio;
+        height = canvas.height;
+        x = (canvas.width - width) / 2;
+        y = 0;
+      }
+
+      // Draw the image onto the canvas
+      ctx.drawImage(designImage, x, y, width, height);
+    };
+
+    // Handle user input and overlay the name on the design
+    var submitButton = document.getElementById('submitButton');
+    submitButton.addEventListener('click', function() {
+      var name = document.getElementById('nameInput').value;
+
+      ctx.fillStyle = '#C0891D'; // Set the text color
+      ctx.font = '72px DIN Next LT Arabic'; // Set the font style
+
+      // Replace the coordinates (x, y) with the desired position to overlay the name
+      var x = 550;
+      var y = 1300;
+
+      // Calculate the text width for centering
+      var textWidth = ctx.measureText(name).width;
+      var centerX = x - textWidth / 2;
+
+      // Draw the text at the specified coordinates
+      ctx.fillText(name, centerX, y);
+    });
+
+    // Generate the shareable URL
+    function generateURL() {
+      var dataURL = canvas.toDataURL(); // Get the base64-encoded image URL
+      console.log('Shareable URL:', dataURL);
+
+      // You can now provide the 'dataURL' to the user for sharing purposes
+      // For example, you could display it in an <img> element or create a hyperlink
+    }
+  </script>
+</body>
+</html>
