@@ -44,7 +44,6 @@
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500&display=swap" rel="stylesheet">
 </head>
-
 <body>
   <canvas id="canvas" width="1080" height="1350"></canvas>
   <br>
@@ -54,71 +53,70 @@
   <a href="#" download="design_with_name.png" id="downloadButton" style="display: none;">Download Image</a>
 
   <script>
-    // Load the design onto the canvas
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
+    // Load the design and text canvases
+    var designCanvas = document.getElementById('canvas');
+    var designCtx = designCanvas.getContext('2d');
+    var textCanvas = document.createElement('canvas');
+    var textCtx = textCanvas.getContext('2d');
 
-    // Replace 'Eid.PNG' with the path to your PNG image
+    // Replace 'EidE.png' with the path to your design image
     var designImage = new Image();
     designImage.src = 'EidE.png';
 
     designImage.onload = function() {
-      var canvasAspectRatio = canvas.width / canvas.height;
+      var canvasAspectRatio = designCanvas.width / designCanvas.height;
       var imageAspectRatio = designImage.width / designImage.height;
 
-      // Calculate the appropriate dimensions and position to fit the image within the canvas
+      // Calculate the appropriate dimensions and position to fit the image within the design canvas
       var width, height, x, y;
       if (canvasAspectRatio > imageAspectRatio) {
-        width = canvas.width;
-        height = canvas.width / imageAspectRatio;
+        width = designCanvas.width;
+        height = designCanvas.width / imageAspectRatio;
         x = 0;
-        y = (canvas.height - height) / 2;
+        y = (designCanvas.height - height) / 2;
       } else {
-        width = canvas.height * imageAspectRatio;
-        height = canvas.height;
-        x = (canvas.width - width) / 2;
+        width = designCanvas.height * imageAspectRatio;
+        height = designCanvas.height;
+        x = (designCanvas.width - width) / 2;
         y = 0;
       }
 
-      // Draw the image onto the canvas
-      ctx.drawImage(designImage, x, y, width, height);
+      // Draw the design image onto the design canvas
+      designCtx.drawImage(designImage, x, y, width, height);
     };
 
-    // Handle user input and overlay the name on the design
+    // Handle user input and overlay the text on the design
     var submitButton = document.getElementById('submitButton');
     submitButton.addEventListener('click', function() {
       var name = document.getElementById('nameInput').value;
 
       document.fonts.ready.then(function() {
-        ctx.fillStyle = '#FFFFFF'; // Set the text color
-        ctx.font = '72px "Tajawal", sans-serif'; // Set the font style
+        textCanvas.width = designCanvas.width;
+        textCanvas.height = designCanvas.height;
 
-        // Replace the coordinates (x, y) with the desired position to overlay the name
+        textCtx.fillStyle = '#FFFFFF'; // Set the text color
+        textCtx.font = '72px "Tajawal", sans-serif'; // Set the font style
+
+        // Replace the coordinates (x, y) with the desired position to overlay the text
         var x = 550;
         var y = 1150;
 
         // Calculate the text width for centering
-        var textWidth = ctx.measureText(name).width;
+        var textWidth = textCtx.measureText(name).width;
         var centerX = x - textWidth / 2;
 
-        // Draw the text at the specified coordinates
-        ctx.fillText(name, centerX, y);
+        // Draw the text on the text canvas
+        textCtx.fillText(name, centerX, y);
+
+        // Draw the text canvas onto the design canvas
+        designCtx.drawImage(textCanvas, 0, 0);
 
         // Show the download button
         var downloadButton = document.getElementById('downloadButton');
         downloadButton.style.display = 'block';
-        downloadButton.href = canvas.toDataURL(); // Set the data URL as the href for download
+        downloadButton.href = designCanvas.toDataURL(); // Set the data URL as the href for download
       });
     });
-
-    // Generate the shareable URL
-    function generateURL() {
-      var dataURL = canvas.toDataURL(); // Get the base64-encoded image URL
-      console.log('Shareable URL:', dataURL);
-
-      // You can now provide the 'dataURL' to the user for sharing purposes
-      // For example, you could display it in an <img> element or create a hyperlink
-    }
   </script>
 </body>
 </html>
