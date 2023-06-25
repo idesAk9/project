@@ -3,7 +3,13 @@
 <head>
   <title>Design with Name Overlay</title>
   <style>
+    #designContainer {
+      position: relative;
+      display: inline-block;
+    }
+
     #designImage {
+      display: block;
       border: 1px solid #000;
     }
 
@@ -49,13 +55,14 @@
     submitButton.addEventListener('click', function() {
       var name = document.getElementById('nameInput').value;
 
+      var designContainer = document.getElementById('designContainer');
       var designImage = document.getElementById('designImage');
       var canvas = document.createElement('canvas');
       canvas.width = designImage.width;
       canvas.height = designImage.height;
       var ctx = canvas.getContext('2d');
-      ctx.drawImage(designImage, 0, 0);
 
+      ctx.drawImage(designImage, 0, 0);
       ctx.fillStyle = '#FFFFFF'; // Set the text color
       ctx.font = '72px "Tajawal", sans-serif'; // Set the font style
 
@@ -70,10 +77,13 @@
       // Draw the text at the specified coordinates
       ctx.fillText(name, centerX, y);
 
+      // Update the image source to the modified canvas
+      designImage.src = canvas.toDataURL();
+
       // Show the download button
       var downloadButton = document.getElementById('downloadButton');
       downloadButton.style.display = 'block';
-      downloadButton.href = canvas.toDataURL(); // Set the data URL as the href for download
+      downloadButton.href = designImage.src; // Set the modified image as the href for download
     });
 
     // Generate the shareable URL
@@ -88,7 +98,9 @@
   </script>
 </head>
 <body>
-  <img id="designImage" src="EidE.png" alt="Design Image">
+  <div id="designContainer">
+    <img id="designImage" src="EidE.png" alt="Design Image">
+  </div>
   <br>
   <input type="text" id="nameInput" placeholder="أكتب اسمك هنا">
   <button id="submitButton">Submit</button>
