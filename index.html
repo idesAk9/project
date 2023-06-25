@@ -89,10 +89,6 @@
       var x = 550;
       var y = 1150;
 
-      // Calculate the text width for centering
-      var textWidth = ctx.measureText(nameInput).width;
-      var centerX = x - textWidth / 2;
-
       // Clear canvas before overlaying the name
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -100,7 +96,7 @@
       loadDesign();
 
       // Draw the text at the specified coordinates
-      ctx.fillText(nameInput, centerX, y);
+      ctx.fillText(nameInput, x, y);
 
       // Show the download button
       var downloadButton = document.getElementById('downloadButton');
