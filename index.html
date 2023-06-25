@@ -82,26 +82,21 @@
       var ctx = canvas.getContext('2d');
       var nameInput = document.getElementById('nameInput').value;
 
-      ctx.fillStyle = '#FFFFFF'; // Set the text color
-      ctx.font = '72px Tajawal, sans-serif'; // Set the font style
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Replace the coordinates (x, y) with the desired position to overlay the name
+      loadDesign();
+
+      ctx.fillStyle = '#FFFFFF'; // Set the text color
+      ctx.font = '72px "Tajawal", sans-serif'; // Set the font style
+
       var x = 550;
       var y = 1150;
 
-      // Clear canvas before overlaying the name
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Redraw the design image
-      loadDesign();
-
-      // Draw the text at the specified coordinates
       ctx.fillText(nameInput, x, y);
 
-      // Show the download button
       var downloadButton = document.getElementById('downloadButton');
       downloadButton.style.display = 'block';
-      downloadButton.href = canvas.toDataURL(); // Set the data URL as the href for download
+      downloadButton.href = canvas.toDataURL();
     }
   </script>
 </head>
