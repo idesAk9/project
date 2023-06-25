@@ -14,6 +14,7 @@
       font-size: 18px;
       padding: 5px;
       box-sizing: border-box;
+      font-family: "Lateef", cursive;
     }
 
     #submitButton {
@@ -22,7 +23,7 @@
       margin: 20px auto;
       font-size: 20px;
       padding: 10px;
-      background-color: #C0891D;
+      background-color: #15775E;
       color: #fff;
       border: none;
       cursor: pointer;
@@ -34,7 +35,7 @@
       margin: 20px auto;
       font-size: 20px;
       padding: 10px;
-      background-color: #C0891D;
+      background-color: #15775E;
       color: #fff;
       border: none;
       cursor: pointer;
@@ -44,9 +45,9 @@
   </style>
 </head>
 <body>
-  <canvas id="canvas" width="1080" height="1920"></canvas>
+  <canvas id="canvas" width="1080" height="1350"></canvas>
   <br>
-  <input type="text" id="nameInput" placeholder="Enter your name">
+  <input type="text" id="nameInput" placeholder="أكتب اسمك هنا">
   <button id="submitButton">Submit</button>
   <br>
   <a href="#" download="design_with_name.png" id="downloadButton" style="display: none;">Download Image</a>
@@ -58,7 +59,7 @@
 
     // Replace 'Eid.PNG' with the path to your PNG image
     var designImage = new Image();
-    designImage.src = 'EidTEC.PNG';
+    designImage.src = 'EidE.png';
 
     designImage.onload = function() {
       var canvasAspectRatio = canvas.width / canvas.height;
@@ -88,11 +89,11 @@
       var name = document.getElementById('nameInput').value;
 
       ctx.fillStyle = '#FFFFFF'; // Set the text color
-      ctx.font = '72px DIN Next LT Arabic'; // Set the font style
+      ctx.font = '72px "Lateef", cursive'; // Set the font style
 
       // Replace the coordinates (x, y) with the desired position to overlay the name
       var x = 550;
-      var y = 1400;
+      var y = 1150;
 
       // Calculate the text width for centering
       var textWidth = ctx.measureText(name).width;
