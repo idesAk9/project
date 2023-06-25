@@ -14,7 +14,6 @@
       font-size: 18px;
       padding: 5px;
       box-sizing: border-box;
-      font-family: "Lateef", cursive;
     }
 
     #submitButton {
@@ -52,6 +51,7 @@
   <br>
   <a href="#" download="design_with_name.png" id="downloadButton" style="display: none;">Download Image</a>
 
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <script>
     // Load the design onto the canvas
     var canvas = document.getElementById('canvas');
@@ -88,24 +88,33 @@
     submitButton.addEventListener('click', function() {
       var name = document.getElementById('nameInput').value;
 
-      ctx.fillStyle = '#FFFFFF'; // Set the text color
-      ctx.font = '72px "Lateef", cursive'; // Set the font style
+      // Create a temporary div to render the text
+      var textDiv = document.createElement('div');
+      textDiv.style.fontFamily = 'DIN Next LT Arabic';
+      textDiv.style.fontSize = '72px';
+      textDiv.style.color = '#FFFFFF';
+      textDiv.style.position = 'absolute';
+      textDiv.style.top = '50%';
+      textDiv.style.left = '50%';
+      textDiv.style.transform = 'translate(-50%, -50%)';
+      textDiv.innerText = name;
 
-      // Replace the coordinates (x, y) with the desired position to overlay the name
-      var x = 550;
-      var y = 1150;
+      // Append the div to the body
+      document.body.appendChild(textDiv);
 
-      // Calculate the text width for centering
-      var textWidth = ctx.measureText(name).width;
-      var centerX = x - textWidth / 2;
+      // Convert the text div to an image using html2canvas
+      html2canvas(textDiv).then(function(canvas) {
+        // Remove the temporary div from the body
+        document.body.removeChild(textDiv);
 
-      // Draw the text at the specified coordinates
-      ctx.fillText(name, centerX, y);
+        // Draw the text image onto the main canvas
+        ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
 
-      // Show the download button
-      var downloadButton = document.getElementById('downloadButton');
-      downloadButton.style.display = 'block';
-      downloadButton.href = canvas.toDataURL(); // Set the data URL as the href for download
+        // Show the download button
+        var downloadButton = document.getElementById('downloadButton');
+        downloadButton.style.display = 'block';
+        downloadButton.href = canvas.toDataURL(); // Set the data URL as the href for download
+      });
     });
 
     // Generate the shareable URL
