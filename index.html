@@ -3,7 +3,7 @@
 <head>
   <title>Design with Name Overlay</title>
   <style>
-    #canvas {
+    #designImage {
       border: 1px solid #000;
     }
 
@@ -44,40 +44,17 @@
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500&display=swap" rel="stylesheet">
   <script>
-    // Load the design onto the canvas
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
-
-    // Replace 'EidE.png' with the path to your PNG image
-    var designImage = new Image();
-    designImage.src = 'EidE.png';
-
-    designImage.onload = function() {
-      var canvasAspectRatio = canvas.width / canvas.height;
-      var imageAspectRatio = designImage.width / designImage.height;
-
-      // Calculate the appropriate dimensions and position to fit the image within the canvas
-      var width, height, x, y;
-      if (canvasAspectRatio > imageAspectRatio) {
-        width = canvas.width;
-        height = canvas.width / imageAspectRatio;
-        x = 0;
-        y = (canvas.height - height) / 2;
-      } else {
-        width = canvas.height * imageAspectRatio;
-        height = canvas.height;
-        x = (canvas.width - width) / 2;
-        y = 0;
-      }
-
-      // Draw the image onto the canvas
-      ctx.drawImage(designImage, x, y, width, height);
-    };
-
     // Handle user input and overlay the name on the design
     var submitButton = document.getElementById('submitButton');
     submitButton.addEventListener('click', function() {
       var name = document.getElementById('nameInput').value;
+
+      var designImage = document.getElementById('designImage');
+      var canvas = document.createElement('canvas');
+      canvas.width = designImage.width;
+      canvas.height = designImage.height;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(designImage, 0, 0);
 
       ctx.fillStyle = '#FFFFFF'; // Set the text color
       ctx.font = '72px "Tajawal", sans-serif'; // Set the font style
@@ -101,7 +78,8 @@
 
     // Generate the shareable URL
     function generateURL() {
-      var dataURL = canvas.toDataURL(); // Get the base64-encoded image URL
+      var designImage = document.getElementById('designImage');
+      var dataURL = designImage.src;
       console.log('Shareable URL:', dataURL);
 
       // You can now provide the 'dataURL' to the user for sharing purposes
@@ -110,7 +88,7 @@
   </script>
 </head>
 <body>
-  <canvas id="canvas" width="1080" height="1350"></canvas>
+  <img id="designImage" src="EidE.png" alt="Design Image">
   <br>
   <input type="text" id="nameInput" placeholder="أكتب اسمك هنا">
   <button id="submitButton">Submit</button>
